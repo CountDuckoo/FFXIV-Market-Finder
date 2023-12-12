@@ -4,6 +4,8 @@ $( function(){
     var characterIdEl = $('#characterID');
     var searchBtn = $('#search');
     var displayDiv = $('#results');
+    // creates an empty array that is going to hold all the items to display
+    var itemsToDisplay = [];
 
     var tradeableResults=[];
 
@@ -34,12 +36,14 @@ $( function(){
         var region = regionEl.val();
         if (!region){
             // display a warning and don't search
+            //TODO: display message on the page
             console.log("warning empty region");
             return;
         }
         var itemType = itemTypeEl.val();
         if (!itemType){
             // display a warning and don't search
+            //TODO: display message on the page
             console.log("warning empty item type");
             return;
         }
@@ -49,10 +53,10 @@ $( function(){
             searchURL+="/missing";
         }
         //passes the URL and the region to the search function
-        collectSearch(searchURL, region);
+        collectSearch(searchURL, region, itemType);
     });
     
-    function collectSearch(searchURL, region){
+    function collectSearch(searchURL, region, itemType){
         fetch(searchURL)
         .then(function(response){
             if(response.ok){
@@ -82,15 +86,64 @@ $( function(){
             //convert it to a string for use in the URL for the second fetch
             tradeableItemList=tradeableItemList.toString();
             var universalisURL="https://universalis.app/api/v2/"+region+"/"+tradeableItemList;
-            console.log(universalisURL);
+            universalisSearch(universalisURL, itemType);
         })
         .catch(function(e){
             console.error(`${e.name}: ${e.message}`);
         });
     }
-    // button listener to get the inputs
-    // determine what fetch we need to make from those inputs
-    // transfer that data to make a request to the other API
-    // display the results on the page
 
+    function universalisSearch(searchURL, itemType){
+        fetch(searchURL)
+        .then(function(response){
+            if(response.ok){
+                return response.json();
+            } else {
+                // if it doesn't give a response stop executing the rest of the code
+                // TODO: display to the user what the problem is if this happens
+                throw new Error(response.status);
+            }
+        })
+        .then(function(data){
+            var responses=Object.values(data.items);
+            // clears the items to display to prepare to add new ones
+            itemsToDisplay=[];
+            // loops through the responses
+            for(let j=0; j<responses.length; j++){
+                // the responses are sorted by price per unit, so get the first one that is just 
+                //an individual item as you do not need more than one
+                let cheapestIndividual=responses[j].listings.find((item) => item.quantity==1);
+                let itemID=responses[j].itemID;
+                // get the item from the call to FFXIV Collect that has the same item ID
+                let collectItem=tradeableResults.find((item) => item.item_id==itemID);
+                let itemUrl='';
+                // orchestrions do not have an image, so use the icon instead
+                if(itemType=="orchestrions"){
+                    itemUrl=collectItem.icon;
+                } else{
+                    itemUrl=collectItem.image;
+                }
+                // create an item that has the name, ID, a picture, the price, and what server it is on
+                const item={
+                    name:collectItem.name,
+                    itemId:itemID,
+                    itemImg:itemUrl,
+                    price:cheapestIndividual.pricePerUnit,
+                    location:cheapestIndividual.worldName,
+                };
+                // add that item to the list
+                itemsToDisplay.push(item);
+            }
+            console.log(itemsToDisplay);
+            //display the new items
+            displayItems();
+        })
+        .catch(function(e){
+            console.error(`${e.name}: ${e.message}`);
+        });
+    }
+
+    function displayItems(){
+
+    }
 });
