@@ -86,6 +86,7 @@ $( function(){
             //convert it to a string for use in the URL for the second fetch
             tradeableItemList=tradeableItemList.toString();
             var universalisURL="https://universalis.app/api/v2/"+region+"/"+tradeableItemList;
+            console.log(universalisURL);
             universalisSearch(universalisURL, itemType);
         })
         .catch(function(e){
@@ -144,6 +145,59 @@ $( function(){
     }
 
     function displayItems(){
+        // clear the current display
+        displayDiv.empty();
+        // get the screen width for responsive design
+        let screenWidth = window.innerWidth;
+        // how many items by row
+        let sizeFactor=6;
+        let tileSize="is-2";
+        // if it is smaller, display fewer items per row
+        if(screenWidth<1200){
+            sizeFactor=4;
+            tileSize="is-3";
+        }
+        if(screenWidth<769){
+            sizeFactor=1;
+            // if the screen is narrow enough, bulma will ignore tileSize so don't need to set it
+        }
+        // create a number of row divs based on the number of results and the items per row
+        for(let j=0; (j*sizeFactor)<itemsToDisplay.length; j++){
+            var row = $('<div>').addClass("tile is-parent").attr("id", ("row-" + j));
+            displayDiv.append(row);
+        }
+        for(let i=0; i<itemsToDisplay.length; i++){
+            // get the current row to add it to based on the current item number and the items per row
+            var currentRowId = "#row-" + Math.floor(i/sizeFactor);
+            var currentRow = displayDiv.children(currentRowId);
+            // get the current item to simplify calls
+            var item=itemsToDisplay[i];
+            // create the card
+            var itemCard= $('<div>').addClass("card tile is-child "+tileSize).attr("id", ("result-" + i));
 
+            // create the header, and add the name
+            var itemHeader= $('<header>').addClass("card-header");
+            var itemTitle = $('<p>').addClass("card-header-title").text(item.name);
+            itemHeader.append(itemTitle);
+
+            // create the image and make sure it is centered within the card
+            var itemImgDiv = $('<div>').addClass("card-image has-text-centered");
+            var itemFigure = $('<figure>').addClass("image is-128x128 is-inline-block");
+            var itemImage = $('<img>').attr("src", item.itemImg).attr("alt", item.name);
+            itemFigure.append(itemImage);
+            itemImgDiv.append(itemFigure);
+
+            // create the text on the card
+            var contentDiv = $('<div>').addClass("card-content");
+            var priceLine = $('<p>').addClass("is-size-5").text('Current Lowest Cost:');
+            var priceLine2 = $('<p>').text(item.price + ' gil');
+            var locationLine = $('<p>').addClass("is-size-5").text('Server to buy on:');
+            var locationLine2 = $('<p>').text(item.location);
+            contentDiv.append(priceLine, priceLine2, locationLine, locationLine2);
+
+            // add all of the elements to the card, and put it in the current row
+            itemCard.append(itemHeader, itemImgDiv, contentDiv);
+            currentRow.append(itemCard);
+        }
     }
 });
