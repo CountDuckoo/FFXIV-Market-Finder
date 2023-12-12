@@ -16,17 +16,20 @@
     <!--have div for where the cards for displaying results will go-->
     <h1>Final Fantasy XIV</h1>
 
-    <form>
-      <label for="region">Choose a region</label>
-      <select name="region" id="region">
-        <option value=""></option>
-        <option value="Japan">Japan</option>
-        <option value="Europe">Europe</option>
-        <option value="North-America">North-America</option>
-        <option value="Oceania">Oceania</option>
-        <option value="China">China</option>
-      </select>
+    <form class="form">
+      <div>
+        <label for="region">Choose a region</label>
+        <select name="region" id="region">
+          <option value=""></option>
+          <option value="Japan">Japan</option>
+          <option value="Europe">Europe</option>
+          <option value="North-America">North-America</option>
+          <option value="Oceania">Oceania</option>
+          <option value="China">China</option>
+        </select>
+      </div>
 
+<<<<<<< HEAD
       <label for="itemtype">Choose an Item Type</label>
       <select name="itemtype" id="itemtype">
         <option value=""></option>
@@ -34,8 +37,22 @@
         <option value="minions">Minion</option>
         <option value="orchestrions">Orchestrion</option>
       </select>
+=======
+      <div>
+        <label for="itemtype">Choose an Item Type</label>
+        <select name="itemtype" id="itemtype">
+          <option value=""></option>
+          <option value="mounts">Mount</option>
+          <option value="minions">Minion</option>
+          <option value="orchestrions">Orchestrion</option>
+        </select>
+      </div>
+>>>>>>> 468f5dbf6993d906f8c755b20d5cf0edde21ffe1
 
-      <input type="text" id="characterID" placeholder="Character ID">
+      <div>
+        <label for="characterID">Enter Character ID</label>
+        <input type="text" id="characterID" placeholder="Character ID">
+      </div>
 
       <button id="search">Search</button>
     </form>
