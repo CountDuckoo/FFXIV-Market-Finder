@@ -1,55 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <link rel="stylesheet" href="assets/css/style.css" />
-    <title>FFXIV Market Finder</title>
-    <!--link to Bulma or another CSS framework for styling https://bulma.io/ -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
-  </head>
-  <body>
-    <!--need input fields: region will be a selection menu between Japan, Europe, North-America, Oceania, China, or 中国
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <title>FFXIV Market Finder</title>
+  <!--link to Bulma or another CSS framework for styling https://bulma.io/ -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+</head>
+
+<body>
+  <!--need input fields: region will be a selection menu between Japan, Europe, North-America, Oceania, China, or 中国
     item type will be a selection menu between mount, minion, orchestrion
     optional character ID-->
-    <!--have div for where the cards for displaying results will go-->
-    <h1>Final Fantasy XIV</h1>
-
-    <form class="form">
-      <div>
-        <label for="region">Choose a region</label>
-        <select name="region" id="region">
-          <option value=""></option>
-          <option value="Japan">Japan</option>
-          <option value="Europe">Europe</option>
-          <option value="North-America">North-America</option>
-          <option value="Oceania">Oceania</option>
-          <option value="China">China</option>
-        </select>
-      </div>
-
-      <div>
-        <label for="itemtype">Choose an Item Type</label>
-        <select name="itemtype" id="itemtype">
-          <option value=""></option>
-          <option value="mounts">Mount</option>
-          <option value="minions">Minion</option>
-          <option value="orchestrions">Orchestrion</option>
-        </select>
-      </div>
-
-      <div>
-        <label for="characterID">Enter Character ID</label>
-        <input type="text" id="characterID" placeholder="Character ID">
-      </div>
-
-      <button id="search">Search</button>
-    </form>
-
-    <div id="results">
+  
+    <h1 class="title is-1 has-text-white">Final Fantasy XIV Market Finder</h1>
+  
+  <form class="form">
+    <div>
+      <label for="region">Choose a region</label>
+      <select name="region" id="region">
+        <option value=""></option>
+        <option value="Japan">Japan</option>
+        <option value="Europe">Europe</option>
+        <option value="North-America">North-America</option>
+        <option value="Oceania">Oceania</option>
+        <option value="China">China</option>
+      </select>
     </div>
 
-    <script src="assets/js/script.js"></script>
-  </body>
+    <div>
+      <label for="itemtype">Choose an Item Type</label>
+      <select name="itemtype" id="itemtype">
+        <option value=""></option>
+        <option value="mounts">Mount</option>
+        <option value="minions">Minion</option>
+        <option value="orchestrions">Orchestrion</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="characterID">Enter Character ID</label>
+      <input type="text" id="characterID" placeholder="Character ID">
+    </div>
+
+    <button id="search">Search</button>
+  </form>
+  <div class="image"> </div>
+
+  <p id="user-response"></p>
+
+
+
+
+  <div id="results">
+  </div>
+
+  <script src="assets/js/script.js"></script>
+</body>
+
 </html>
