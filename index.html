@@ -15,50 +15,51 @@
   <!--need input fields: region will be a selection menu between Japan, Europe, North-America, Oceania, China, or 中国
     item type will be a selection menu between mount, minion, orchestrion
     optional character ID-->
-  
+
+    <!--have div for where the cards for displaying results will go-->
     <h1 class="title is-1 has-text-white">Final Fantasy XIV Market Finder</h1>
-  
-  <form class="form">
-    <div>
-      <label for="region">Choose a region</label>
-      <select name="region" id="region">
-        <option value=""></option>
-        <option value="Japan">Japan</option>
-        <option value="Europe">Europe</option>
-        <option value="North-America">North-America</option>
-        <option value="Oceania">Oceania</option>
-        <option value="China">China</option>
-      </select>
+
+    <form class="form">
+      <div>
+        <label for="region">Choose a region</label>
+        <select name="region" id="region">
+          <option value=""></option>
+          <option value="Japan">Japan</option>
+          <option value="Europe">Europe</option>
+          <option value="North-America">North-America</option>
+          <option value="Oceania">Oceania</option>
+          <option value="China">China</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="itemtype">Choose an Item Type</label>
+        <select name="itemtype" id="itemtype">
+          <option value=""></option>
+          <option value="mounts">Mount</option>
+          <option value="minions">Minion</option>
+          <option value="orchestrions">Orchestrion</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="characterID">Enter Character ID</label>
+        <input type="text" id="characterID" placeholder="Character ID">
+      </div>
+
+      <button id="search">Search</button>
+    </form>
+    <div class="image"> </div>
+
+    <p id="user-response"></p>
+
+    <div class="tile is-ancestor">
+      <div class="tile is-parent is-vertical" id="results">
+
+      </div>
     </div>
 
-    <div>
-      <label for="itemtype">Choose an Item Type</label>
-      <select name="itemtype" id="itemtype">
-        <option value=""></option>
-        <option value="mounts">Mount</option>
-        <option value="minions">Minion</option>
-        <option value="orchestrions">Orchestrion</option>
-      </select>
-    </div>
-
-    <div>
-      <label for="characterID">Enter Character ID</label>
-      <input type="text" id="characterID" placeholder="Character ID">
-    </div>
-
-    <button id="search">Search</button>
-  </form>
-  <div class="image"> </div>
-
-  <p id="user-response"></p>
-
-
-
-
-  <div id="results">
-  </div>
-
-  <script src="assets/js/script.js"></script>
-</body>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="assets/js/script.js"></script>
+  </body>
 </html>
