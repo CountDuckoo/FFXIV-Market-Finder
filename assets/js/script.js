@@ -87,6 +87,7 @@ $( function(){
             tradeableItemList=tradeableItemList.toString();
             var universalisURL="https://universalis.app/api/v2/"+region+"/"+tradeableItemList;
             console.log(universalisURL);
+            // TODO: let the user know the search is happening
             universalisSearch(universalisURL, itemType);
         })
         .catch(function(e){
