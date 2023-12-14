@@ -4,6 +4,8 @@ $( function(){
     var characterIdEl = $('#characterID');
     var searchBtn = $('#search');
     var displayDiv = $('#results');
+    var backgroundImage = $('.backgroundImage');
+    var response = $('#user-response');
     // creates an empty array that is going to hold all the items to display
     var itemsToDisplay = [];
 
@@ -38,6 +40,7 @@ $( function(){
             // display a warning and don't search
             //TODO: display message on the page
             console.log("warning empty region");
+            response.text("This is a test message");
             return;
         }
         var itemType = itemTypeEl.val();
@@ -148,6 +151,8 @@ $( function(){
     function displayItems(){
         // clear the current display
         displayDiv.empty();
+        displayDiv.addClass("has-background-info");
+        backgroundImage.attr("hidden", "true");
         // get the screen width for responsive design
         let screenWidth = window.innerWidth;
         // how many items by row
@@ -174,7 +179,8 @@ $( function(){
             // get the current item to simplify calls
             var item=itemsToDisplay[i];
             // create the card
-            var itemCard= $('<div>').addClass("card tile is-child "+tileSize).attr("id", ("result-" + i));
+            var cardHolder=$('<div>').addClass("tile is-child "+tileSize).attr("id", ("result-" + i));
+            var itemCard= $('<div>').addClass("card m-1");
 
             // create the header, and add the name
             var itemHeader= $('<header>').addClass("card-header");
@@ -198,7 +204,8 @@ $( function(){
 
             // add all of the elements to the card, and put it in the current row
             itemCard.append(itemHeader, itemImgDiv, contentDiv);
-            currentRow.append(itemCard);
+            cardHolder.append(itemCard);
+            currentRow.append(cardHolder);
         }
     }
 });
