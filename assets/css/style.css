@@ -16,23 +16,33 @@ h1{
 }
 .form{
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
     padding: 1%;
     background-color:brown;
     color: white;
     font-size: 30px;
+    margin-top: -24px;
+    flex-wrap: wrap;
 }
-#characterID{
+.title{
+    padding: 2%;
+
 
 }
+
+
+
 #search{
     margin-right: 20px;
     background-color:gold;
-    width: 6%;
+    width: 80px;
     color: black;
+    margin-top: 10px;
+   
+
 
 }
-.image{
+.backgroundImage{
    background-image: url(./endwalker.jpg);
    background-size: cover;
    padding: 20%;
