@@ -4,8 +4,8 @@ $( function(){
     var characterIdEl = $('#characterID');
     var searchBtn = $('#search');
     var displayDiv = $('#results');
-    var backgroundImage = $('.backgroundImage');
-    var response = $('#user-response');
+    var response=$('#user-response');
+    var backGround=$('.backgroundImage');
     // creates an empty array that is going to hold all the items to display
     var itemsToDisplay = [];
 
@@ -28,7 +28,7 @@ $( function(){
             //the character ID is not empty, but it can't become an int, or is less than or equal to 1
             } else{
                // display a warning and don't search
-               console.log("warning bad ID");
+               response.text("Not A Possible Charcter Id.");
                return;
             }
         // it is empty, so it is a regular search, not a character search
@@ -38,16 +38,13 @@ $( function(){
         var region = regionEl.val();
         if (!region){
             // display a warning and don't search
-            //TODO: display message on the page
-            console.log("warning empty region");
-            response.text("This is a test message");
+            response.text("No Region Selected.");
             return;
         }
         var itemType = itemTypeEl.val();
         if (!itemType){
             // display a warning and don't search
-            //TODO: display message on the page
-            console.log("warning empty item type");
+            response.text("No Item selected.");
             return;
         }
         searchURL+=itemType;
@@ -67,7 +64,6 @@ $( function(){
             } else {
                 // if it doesn't give a response, most commonly from the character ID not being public,
                 //stop executing the rest of the code
-                // TODO: display to the user what the problem is if this happens
                 throw new Error(response.status);
             }
         })
@@ -90,11 +86,17 @@ $( function(){
             tradeableItemList=tradeableItemList.toString();
             var universalisURL="https://universalis.app/api/v2/"+region+"/"+tradeableItemList;
             console.log(universalisURL);
-            // TODO: let the user know the search is happening
+            response.text("Searching.");
             universalisSearch(universalisURL, itemType);
         })
         .catch(function(e){
             console.error(`${e.name}: ${e.message}`);
+            if(e.message=="404"){
+                response.text("Charcter Id Does Not Exist Or Is Not Public.");
+
+            }else{
+                response.text(`${e.name}: ${e.message}`);
+            }
         });
     }
 
@@ -105,7 +107,6 @@ $( function(){
                 return response.json();
             } else {
                 // if it doesn't give a response stop executing the rest of the code
-                // TODO: display to the user what the problem is if this happens
                 throw new Error(response.status);
             }
         })
@@ -145,6 +146,7 @@ $( function(){
         })
         .catch(function(e){
             console.error(`${e.name}: ${e.message}`);
+            response.text(`${e.name}: ${e.message}`+" Server Error");
         });
     }
 
@@ -152,7 +154,8 @@ $( function(){
         // clear the current display
         displayDiv.empty();
         displayDiv.addClass("has-background-info");
-        backgroundImage.attr("hidden", "true");
+        backGround.attr("hidden","true");
+        response.text("");
         // get the screen width for responsive design
         let screenWidth = window.innerWidth;
         // how many items by row
