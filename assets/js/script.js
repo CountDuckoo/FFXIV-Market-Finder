@@ -4,6 +4,9 @@ $( function(){
     var characterIdEl = $('#characterID');
     var searchBtn = $('#search');
     var displayDiv = $('#results');
+    var response=$('#user-response');
+    var backGround=$('.backgroundImage');
+
     // creates an empty array that is going to hold all the items to display
     var itemsToDisplay = [];
 
@@ -26,7 +29,7 @@ $( function(){
             //the character ID is not empty, but it can't become an int, or is less than or equal to 1
             } else{
                // display a warning and don't search
-               console.log("warning bad ID");
+               response.text("Not A Possible Charcter Id.");
                return;
             }
         // it is empty, so it is a regular search, not a character search
@@ -37,14 +40,14 @@ $( function(){
         if (!region){
             // display a warning and don't search
             //TODO: display message on the page
-            console.log("warning empty region");
+            response.text("No Region Selected.");
             return;
         }
         var itemType = itemTypeEl.val();
         if (!itemType){
             // display a warning and don't search
             //TODO: display message on the page
-            console.log("warning empty item type");
+            response.text("No Item selected.");
             return;
         }
         searchURL+=itemType;
@@ -87,11 +90,17 @@ $( function(){
             tradeableItemList=tradeableItemList.toString();
             var universalisURL="https://universalis.app/api/v2/"+region+"/"+tradeableItemList;
             console.log(universalisURL);
-            // TODO: let the user know the search is happening
+            response.text("Searching.");
             universalisSearch(universalisURL, itemType);
         })
         .catch(function(e){
             console.error(`${e.name}: ${e.message}`);
+            if(e.message=="404"){
+                response.text("Charcter Id Does Not Exist Or Is Not Public.");
+
+            }else{
+                response.text(`${e.name}: ${e.message}`);
+            }
         });
     }
 
@@ -142,12 +151,16 @@ $( function(){
         })
         .catch(function(e){
             console.error(`${e.name}: ${e.message}`);
+            response.text(`${e.name}: ${e.message}`+" Server Error");
         });
     }
 
     function displayItems(){
         // clear the current display
         displayDiv.empty();
+        displayDiv.addClass("has-background-info");
+        backGround.attr("hidden","true");
+        response.text("");
         // get the screen width for responsive design
         let screenWidth = window.innerWidth;
         // how many items by row
@@ -174,7 +187,8 @@ $( function(){
             // get the current item to simplify calls
             var item=itemsToDisplay[i];
             // create the card
-            var itemCard= $('<div>').addClass("card tile is-child "+tileSize).attr("id", ("result-" + i));
+            var cardHolder= $('<div>').addClass("tile is-child "+tileSize).attr("id", ("result-" + i));
+            var itemCard= $('<div>').addClass("card m-1");
 
             // create the header, and add the name
             var itemHeader= $('<header>').addClass("card-header");
@@ -198,7 +212,8 @@ $( function(){
 
             // add all of the elements to the card, and put it in the current row
             itemCard.append(itemHeader, itemImgDiv, contentDiv);
-            currentRow.append(itemCard);
+            cardHolder.append(itemCard);
+            currentRow.append(cardHolder);
         }
     }
 });
