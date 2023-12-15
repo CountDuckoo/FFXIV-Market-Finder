@@ -1,0 +1,50 @@
+/* something with Bulma or whatever other framework */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Roboto:wght@100&display=swap');
+*{
+    padding: 0px;
+    margin: 0px;
+}
+.title{
+    padding: 2%;
+}
+h1{
+    background-color:black;
+    color: white;
+    font-size:50px;
+    text-align: center;
+    padding: 5%;
+    font-family: 'Roboto', sans-serif;
+   
+}
+.form{
+    display: flex;
+    justify-content: space-evenly;
+    padding: 1%;
+    background-color:brown;
+    color: white;
+    font-size: 30px;
+    margin-top: -24px;
+    flex-wrap: wrap;
+}
+.title{
+    padding: 2%;
+}
+
+#search{
+    background-color:gold;
+    width: 80px;
+    color: black;
+    margin-top: 10px;
+}
+
+.backgroundImage{
+   background-image: url(./endwalker.jpg);
+   background-size: cover;
+   padding: 20%;
+}
+
+#holder{
+    margin-top: 0;
+    margin-bottom: 0;
+}
