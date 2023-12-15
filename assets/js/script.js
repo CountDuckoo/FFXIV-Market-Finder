@@ -6,17 +6,33 @@ $( function(){
     var displayDiv = $('#results');
     var response=$('#user-response');
     var backGround=$('.backgroundImage');
-
     // creates an empty array that is going to hold all the items to display
     var itemsToDisplay = [];
+    var isCharacterSearch = false;
+    var characterId='';
 
     var tradeableResults=[];
+
+    //if there is a search in storage, get and display those results
+    var storedItems = JSON.parse(sessionStorage.getItem("itemList"));
+    if(storedItems){
+        itemsToDisplay=storedItems;
+        regionEl.val(sessionStorage.getItem("region"));
+        itemTypeEl.val(sessionStorage.getItem("itemType"));
+        //if there was a character ID saved, get it
+        let tempCharId=sessionStorage.getItem("characterId");
+        if(tempCharId){
+            characterIdEl.val(tempCharId);
+            isCharacterSearch = true;
+        }
+        displayItems();
+    }
 
     searchBtn.on( "click", function(event){
         event.preventDefault();
         var searchURL = "https://ffxivcollect.com/api/";
-        var isCharacterSearch=false;
-        var characterId= characterIdEl.val().trim();
+        isCharacterSearch=false;
+        characterId= characterIdEl.val().trim();
         // if it is not empty
         if(characterId){
             // convert it to an int, or NaN if not possible to
@@ -39,14 +55,12 @@ $( function(){
         var region = regionEl.val();
         if (!region){
             // display a warning and don't search
-            //TODO: display message on the page
             response.text("No Region Selected.");
             return;
         }
         var itemType = itemTypeEl.val();
         if (!itemType){
             // display a warning and don't search
-            //TODO: display message on the page
             response.text("No Item selected.");
             return;
         }
@@ -67,7 +81,6 @@ $( function(){
             } else {
                 // if it doesn't give a response, most commonly from the character ID not being public,
                 //stop executing the rest of the code
-                // TODO: display to the user what the problem is if this happens
                 throw new Error(response.status);
             }
         })
@@ -89,9 +102,8 @@ $( function(){
             //convert it to a string for use in the URL for the second fetch
             tradeableItemList=tradeableItemList.toString();
             var universalisURL="https://universalis.app/api/v2/"+region+"/"+tradeableItemList;
-            console.log(universalisURL);
             response.text("Searching.");
-            universalisSearch(universalisURL, itemType);
+            universalisSearch(universalisURL, region, itemType);
         })
         .catch(function(e){
             console.error(`${e.name}: ${e.message}`);
@@ -104,14 +116,13 @@ $( function(){
         });
     }
 
-    function universalisSearch(searchURL, itemType){
+    function universalisSearch(searchURL, region, itemType){
         fetch(searchURL)
         .then(function(response){
             if(response.ok){
                 return response.json();
             } else {
                 // if it doesn't give a response stop executing the rest of the code
-                // TODO: display to the user what the problem is if this happens
                 throw new Error(response.status);
             }
         })
@@ -145,7 +156,16 @@ $( function(){
                 // add that item to the list
                 itemsToDisplay.push(item);
             }
-            console.log(itemsToDisplay);
+            // at this point it is a successful search, so update the storage with the results
+            //and search parameters
+            sessionStorage.setItem("itemList", JSON.stringify(itemsToDisplay));
+            sessionStorage.setItem("region", region);
+            sessionStorage.setItem("itemType", itemType);
+            if(isCharacterSearch){
+                sessionStorage.setItem("characterId", characterId);
+            } else {
+                sessionStorage.removeItem("characterId");
+            }
             //display the new items
             displayItems();
         })
@@ -187,7 +207,7 @@ $( function(){
             // get the current item to simplify calls
             var item=itemsToDisplay[i];
             // create the card
-            var cardHolder= $('<div>').addClass("tile is-child "+tileSize).attr("id", ("result-" + i));
+            var cardHolder=$('<div>').addClass("tile is-child "+tileSize).attr("id", ("result-" + i));
             var itemCard= $('<div>').addClass("card m-1");
 
             // create the header, and add the name
