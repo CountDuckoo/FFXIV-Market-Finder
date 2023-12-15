@@ -45,7 +45,7 @@ $( function(){
             //the character ID is not empty, but it can't become an int, or is less than or equal to 1
             } else{
                // display a warning and don't search
-               response.text("Not A Possible Charcter Id.");
+               response.text("Not A Possible Character Id.");
                return;
             }
         // it is empty, so it is a regular search, not a character search
@@ -61,7 +61,7 @@ $( function(){
         var itemType = itemTypeEl.val();
         if (!itemType){
             // display a warning and don't search
-            response.text("No Item selected.");
+            response.text("No Item Selected.");
             return;
         }
         searchURL+=itemType;
